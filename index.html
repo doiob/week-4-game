@@ -35,8 +35,8 @@
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
-        <div class="col-md-5 random-box">
-          <p id="playground"> </p>
+        <div class="col-md-5" id="random-box">
+          <p id="playground">abc </p>
         </div>
         <div class="col-md-7">
           <p id="score">
@@ -51,10 +51,21 @@
           <img id="ruby" src="assets/images/ruby.png">
           <img id="yellow" src="assets/images/yellow.png">
       </div>
-      <div class="row" id="crystal-val">
-      </div>
       <div class="row" id="start-btn">
-        <button class="button" id="start">Start</button>
+          <div class="col-md-5">
+            <button class="button" id="start">Start</button>
+          </div>
+          <div class="col-md-7"></div>
+      </div>
+      <div class="row">
+          <div class="col-md-5" id="random-box">
+            <p id="total"> </p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-5" id="winlose">
+            <p id="result"> </p>
+          </div>
       </div>
       <hr>
 
@@ -66,32 +77,103 @@
 
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
+
+       
         var randomNumber = Math.floor((Math.random() * 100) + 50);
-        var purpleNumber = Math.floor((Math.random() * 2) + 9);
-        var orangeNumber = Math.floor((Math.random() * 2) + 9);
-        var rubyNumber = Math.floor((Math.random() *   2) + 9);
-        var yellowNumber = Math.floor((Math.random() * 2) + 9);
-        $("#playground").replaceWith(randomNumber);
+        var randomArray=[];
+        randomArray = randomInt(randomArray);
+        var purpleNumber = randomArray[0];
+        var orangeNumber = randomArray[1];
+        var rubyNumber = randomArray[2];
+        var yellowNumber = randomArray[3];
+        var total=0;
+
+        $("#playground").replaceWith("<p id=\"playground\">" +  randomNumber + "</p>");
         $("#purple").on('click', function(){
           $("#purple").attr("src","assets/images/purple.gif");
+          total = scorecard(total,purpleNumber,randomNumber);
         });
+
         $("#orange").on('click', function(){
           $("#orange").attr("src","assets/images/orange.gif");
+          total = scorecard(total,orangeNumber,randomNumber);
         });
         $("#ruby").on('click', function(){
           $("#ruby").attr("src","assets/images/ruby.gif");
+          total = scorecard(total,rubyNumber,randomNumber);
         });
         $("#yellow").on('click', function(){
           $("#yellow").attr("src","assets/images/yellow.gif");
+          total = scorecard(total,yellowNumber,randomNumber);
         });
+        //reset everything
         $("#start").on('click', function(){
+          randomArray=[];
+          randomArray = randomInt(randomArray);
           $("#purple").attr("src","assets/images/purple.png");
           $("#orange").attr("src","assets/images/orange.png");
           $("#ruby").attr("src","assets/images/ruby.png");
           $("#yellow").attr("src","assets/images/yellow.png");
-          randomNumber = Math.floor((Math.random() * 100) + 50);
-          $("#playground").replaceWith(randomNumber);
+          randomNumber = Math.floor((Math.random() * 10) + 50);
+          $("#playground").replaceWith("<p id=\"playground\">" +  randomNumber + "</p>");
+          $("#total").replaceWith("<p id=\"total\"></p>");
+          $("#result").replaceWith("<p id=\"result\"></p>");
+          total=0;
+          purpleNumber = randomArray[0];
+          orangeNumber = randomArray[1];
+          rubyNumber = randomArray[2];
+          yellowNumber = randomArray[3];
+          
         });
+        function scorecard(num,colorNum,rndNum){
+          num = num + colorNum;
+          $("#total").replaceWith("<p id=\"total\">" +  num + "</p>");
+          if ( num > rndNum)
+          {
+            $("#result").replaceWith("<p id=\"result\"> You Lose</p>");
+          }
+          if ( num == rndNum)
+          {
+            $("#result").replaceWith("<p id=\"result\"> You Win</p>");
+          }
+          return num;
+        }
+        function randomInt(ary)
+        {
+          var found=true;
+          var index=0;
+
+          while(found)
+          {
+            num = Math.floor((Math.random() * 9) + 2);
+            if (index == 0)
+            {
+              ary[0]=num;
+              index = 1;
+            }
+            else
+            {
+              for(var i=0;i<index;i++){
+                if(ary[i]==num)
+                {
+                  found=true;break;
+                }
+                else
+                {
+                  found = false;
+                }
+              }
+              if(!found)
+              {
+                ary[index]=num;
+                index= index + 1;
+                found=true;
+              }
+              if ( index == 4 ) {return ary};
+            }
+          }
+        }
+        
     </script>
   </body>
 </html>

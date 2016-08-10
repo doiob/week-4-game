@@ -20,4 +20,11 @@
     width:46px;
     background-color: white;
     color:black;
+    text-align:center;
+    font-size: 30px;
+}
+#winlose{
+   font-size: 30px; 
+   background-color: white;
+    color:black;
 }
